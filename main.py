@@ -28,65 +28,36 @@ def menu():
 """)
     while True:
         if not using_array:
-            n = m = 0
-            min_random = max_random = -999999999999999
-            print('Для начала работы необходимо сгенерировать массив.\n'
+            m = get_number_from_input('Для начала работы необходимо сгенерировать массив.\n'
                   'Это можно сделать по нескольким параметрам.\n'
                   'Для начала введите длинну строки (размер подмассива)\n'
                   'Макисмальное значение: 1000, минимальное: 3\n'
-                  'Введите значение:')
-            while int(m) < 3 or int(m) > 1000:
-                try:
-                    m = int(input())
-                except ValueError:
-                    print('Неверное значение, попробуйте еще раз:')
-                    continue
-            print('Введите количество столбцов (размер массива)\n'
+                  'Введите значение:', 3, 1000)
+
+            n = get_number_from_input('Введите количество столбцов (размер массива)\n'
                   'Макисмальное значение: 1000, минимальное: 3\n'
-                  'Введите значение:')
-            while int(n) < 3 or int(n) > 1000:
-                try:
-                    n = int(input())
-                except ValueError:
-                    print('Неверное значение, попробуйте еще раз:')
-                    continue
-            print('Введите минимальное значение, возможное для двумерного массива\n'
+                  'Введите значение:', 3, 1000)
+
+            min_random = get_number_from_input('Введите минимальное значение, возможное для двумерного массива\n'
                   'Минимальное значение: -1.000.000.000, максимальное: 500.000.000\n'
-                  'Введите значение:')
-            while int(min_random) < -1000000000 or int(min_random) > 500000000:
-                try:
-                    min_random = int(input())
-                except ValueError:
-                    print('Неверное значение, попробуйте еще раз:')
-                    continue
-            print('Введите максимальное значение, возможное для двумерного массива\n'
+                  'Введите значение:', -1000000000, 500000000)
+
+            max_random = get_number_from_input('Введите максимальное значение, возможное для двумерного массива\n'
                   f'Минимальное значение: {min_random+10}, максимальное: 1.000.000.000\n'
-                  'Введите значение:')
-            while int(max_random) < (min_random+10) or int(max_random) > 1000000000:
-                try:
-                    max_random = int(input())
-                except ValueError:
-                    print('Неверное значение, попробуйте еще раз:')
-                    continue
+                  'Введите значение:', min_random+10, 1000000000)
+
             using_array = generate_2d_array(n, m, min_random, max_random)
         print('Ваш текущий массив:')
         for row in using_array:
             print(row)
-        print('Выберите операцию по пункту меню:\n'
+        choice = get_number_from_input('Выберите операцию по пункту меню:\n'
               '1. Заменить максимальный элемент каждой строки нулем\n'
               '2. Вставить после каждого столбца, содержащего максимальный элемент массива'
               'столбец из нулей\n'
               '3. Удалить все столбцы, в которых встретиться нечетный положительный элемент\n'
               '4. Поменять местами первый и предпоследний столбцы\n'
               '5. Перегенерировать массив\n'
-              '0. Выйти\n')
-        choice = -1
-        while int(choice) < 0 or int(choice) > 5:
-            try:
-                choice = int(input())
-            except ValueError:
-                print('Неверное значение, попробуйте еще раз:')
-                continue
+              '0. Выйти\n', 0, 5)
         if choice == 0:
             exit(0)
         if choice == 1:
@@ -105,6 +76,21 @@ def menu():
             using_array = []
             continue
 
+
+def get_number_from_input(message: str, min_value: int, max_value: int) -> int:
+    print(message)
+    first_attempt = True
+    choice = None
+    while first_attempt or (int(choice) < min_value or int(choice) > max_value):
+        try:
+            choice = int(input())
+            first_attempt = False
+            if choice < min_value or choice > max_value:
+                raise ValueError
+        except ValueError:
+            print('Неверное значение, попробуйте еще раз:')
+            continue
+    return choice
 
 def generate_2d_array(n: int, m: int, min_random: int, max_random: int) -> [[int]]:
     """Генерирует двумерный массив случайных чисел. n - количество массивов в массиве, m - размер одного массива
