@@ -8,9 +8,9 @@ class MyTestCase(unittest.TestCase):
     def test_generating(self):
         print("Testing Generator:")
         array_empty = generate_2d_array(0, 0, -10000, 10000)
-        self.assertEqual(array_empty == [[]], True)  # add assertion here
+        self.assertEqual(array_empty == [], True)  # add assertion here
         array_wrong = generate_2d_array(-1, -1, -99912391239, 48523849392)
-        self.assertEqual(array_wrong == [[]], True)  # add assertion here
+        self.assertEqual(array_wrong == [], True)  # add assertion here
         array_extremely_high_values = generate_2d_array(5, 5, -999999999999999999, 999999999999999999)
         self.assertEqual(len(array_extremely_high_values) == 5, True)  # add assertion here
         self.assertEqual(len(array_extremely_high_values[1]) == 5, True)  # add assertion here
